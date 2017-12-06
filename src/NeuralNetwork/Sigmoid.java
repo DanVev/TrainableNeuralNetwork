@@ -6,6 +6,6 @@ package NeuralNetwork;
 public class Sigmoid implements IActivationFunction {
     @Override
     public double activationFunction(double t) {
-        return 1 / (1 + Math.exp(-t));
+        return 1.0 / (1.0 + Math.exp(-t));
     }
 }
