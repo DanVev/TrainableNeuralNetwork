@@ -10,9 +10,11 @@ public interface INeuronLayer {
 
     int getLength();
 
-    public void setSignal(int position, double signal);
+    void setSignal(int position, double signal);
 
     INeuronLayer setNeurons(double[] neurons);
 
     double[] getNeurons();
+
+    double[] getResponses();
 }

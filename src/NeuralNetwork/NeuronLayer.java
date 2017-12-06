@@ -43,13 +43,23 @@ public class NeuronLayer implements INeuronLayer {
     }
 
     @Override
+    public double[] getResponses() {
+        double[] result = new double[neurons.length - 1];
+        for (int i = 0; i < neurons.length - 1; i++)
+            result[i] = neurons[i + 1];
+        return result;
+    }
+
+    @Override
     public void setSignal(int position, double signal) {
         neurons[position] = signal;
     }
 
     @Override
     public INeuronLayer setNeurons(double[] neurons) {
-        this.neurons = neurons;
+        for (int i = 0; i < neurons.length; i++) {
+            this.neurons[i + 1] = neurons[i];
+        }
         return this;
     }
 }
