@@ -1,8 +1,11 @@
 package UI;
 
+import javafx.geometry.Point2D;
+
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 
 /**
  * Created by Vasily Danilin on 05.12.2017.
@@ -15,15 +18,34 @@ public class MainWindow {
     private JPanel rootPanel;
     private JPanel SettingPanel;
     private JLabel letterLabel;
+    private JButton clearButton;
 
 
-    public MainWindow() {
+    private MainWindow() {
         paintingPanel.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 super.mousePressed(e);
+//                ((PaintingPanel)paintingPanel).addPoint(new Point2D(e.getX(),e.getY()));
+//                System.out.println("add point");
+//                paintingPanel.repaint();
 
-
+            }
+        });
+        paintingPanel.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                super.mouseDragged(e);
+                ((PaintingPanel) paintingPanel).addPoint(new Point2D(e.getX(), e.getY()));
+                System.out.println("add point");
+                paintingPanel.repaint();
+            }
+        });
+        clearButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                ((PaintingPanel) paintingPanel).clear();
             }
         });
     }

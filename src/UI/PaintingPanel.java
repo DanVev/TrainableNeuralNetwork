@@ -19,15 +19,20 @@ public class PaintingPanel extends JPanel {
         return points;
     }
 
-    public void addPoint(Point2D point) {
+    void addPoint(Point2D point) {
         points.add(point);
     }
 
+    void clear() {
+        points.clear();
+        this.repaint();
+    }
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        System.out.println("repaint");
         Graphics2D graphics = (Graphics2D) g;
         for (Point2D point : points)
-            graphics.drawOval((int) point.getX(), (int) point.getY(), 4, 4);
+            graphics.fillOval((int) point.getX(), (int) point.getY(), 10, 10);
     }
 }
