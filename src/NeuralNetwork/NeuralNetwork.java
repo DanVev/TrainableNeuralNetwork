@@ -48,6 +48,8 @@ public class NeuralNetwork {
         //backPropagation algorithm
         double[] trainSampleArray = trainSample.getPoints();
         double[] responses = forwardPropagation(trainSampleArray);
+        double[] correctAnswers = new double[layers.get(length - 1).getLength()];
+        correctAnswers[trainSample.getClassNumber()] = 1;
 
     }
 

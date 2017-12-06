@@ -11,6 +11,7 @@ public class Sample {
     private double[] points;
     private int weigth;
     private int height;
+    private int classNumber;
 
     public Sample(List<Point2D> points, int weigth, int height) {
 
@@ -23,6 +24,20 @@ public class Sample {
         this.weigth = weigth;
         this.height = height;
         this.points = points;
+    }
+
+    public Sample(double[] points, int weigth, int height, int classNumber) {
+        this.points = points;
+        this.weigth = weigth;
+        this.height = height;
+        this.classNumber = classNumber;
+    }
+
+    public Sample(List<Point2D> points, int weigth, int height, int classNumber) {
+        setPoints(points);
+        this.weigth = weigth;
+        this.height = height;
+        this.classNumber = classNumber;
     }
 
     public double[] getPoints() {
@@ -42,6 +57,10 @@ public class Sample {
 
     public void setWeigth(int weigth) {
         this.weigth = weigth;
+    }
+
+    public int getClassNumber() {
+        return classNumber;
     }
 
     public int getHeight() {
