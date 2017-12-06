@@ -37,8 +37,11 @@ public class PaintingPanel extends JPanel {
             graphics.fillOval((int) point.getX(), (int) point.getY(), 10, 10);
     }
 
-    public double[][] makeMatrix() {
-        double[][] result = null;
+    public int[][] makeMatrix() {
+        int[][] result = new int[this.getSize().width][this.getSize().height];
+        for (Point2D p : points) {
+            result[(int) p.getX()][(int) p.getY()] = 1;
+        }
         return result;
     }
 }
