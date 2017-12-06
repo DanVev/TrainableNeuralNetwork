@@ -1,5 +1,7 @@
 package UI;
 
+import NeuralNetwork.NeuralNetwork;
+import NeuralNetwork.NeuronLayer;
 import javafx.geometry.Point2D;
 
 import javax.swing.*;
@@ -57,5 +59,11 @@ public class MainWindow {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
+
+
+        NeuralNetwork network = new NeuralNetwork();
+        network.addLayer(new NeuronLayer(380 * 400)).
+                addLayer(new NeuronLayer(380 * 400 * 100)).
+                addLayer(new NeuronLayer(32));
     }
 }
