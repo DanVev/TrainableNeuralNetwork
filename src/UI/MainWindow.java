@@ -22,16 +22,7 @@ public class MainWindow {
 
 
     private MainWindow() {
-        paintingPanel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                super.mousePressed(e);
-//                ((PaintingPanel)paintingPanel).addPoint(new Point2D(e.getX(),e.getY()));
-//                System.out.println("add point");
-//                paintingPanel.repaint();
 
-            }
-        });
         paintingPanel.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
