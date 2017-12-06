@@ -7,9 +7,9 @@ import java.util.List;
  * Created by Vasily Danilin on 06.12.2017.
  */
 public class NeuralNetwork {
-    List<INeuronLayer> layers = new ArrayList<>();
+    private List<INeuronLayer> layers = new ArrayList<>();
     List<double[]> weights = new ArrayList<>();
-    int length = 0;
+    private int length = 0;
 
     public NeuralNetwork addLayer(INeuronLayer layer) {
         layers.add(layer);
