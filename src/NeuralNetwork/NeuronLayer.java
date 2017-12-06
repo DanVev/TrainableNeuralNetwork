@@ -8,7 +8,7 @@ public class NeuronLayer implements INeuronLayer {
     private int length;
     private double[] neurons;
 
-    public NeuronLayer(IActivationFunction activationFunction, int length) {
+    public NeuronLayer(int length, IActivationFunction activationFunction) {
         this.activationFunction = activationFunction;
         this.length = length + 1;
         neurons = new double[length + 1];
