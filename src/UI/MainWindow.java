@@ -3,6 +3,7 @@ package UI;
 import javafx.geometry.Point2D;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -12,13 +13,13 @@ import java.awt.event.MouseMotionAdapter;
  */
 public class MainWindow {
 
-    private JComboBox letterComboBox;
-    private JButton saveButton;
     private JPanel paintingPanel;
     private JPanel rootPanel;
-    private JPanel SettingPanel;
-    private JLabel letterLabel;
     private JButton clearButton;
+    private JPanel SettingPanel;
+    private JComboBox letterComboBox;
+    private JButton saveButton;
+    private JLabel letterLabel;
 
 
     private MainWindow() {
@@ -28,7 +29,6 @@ public class MainWindow {
             public void mouseDragged(MouseEvent e) {
                 super.mouseDragged(e);
                 ((PaintingPanel) paintingPanel).addPoint(new Point2D(e.getX(), e.getY()));
-                System.out.println("add point");
                 paintingPanel.repaint();
             }
         });
@@ -43,10 +43,16 @@ public class MainWindow {
 
     private void createUIComponents() {
         paintingPanel = new PaintingPanel();
+        paintingPanel.setSize(300, 400);
+        paintingPanel.setMinimumSize(new Dimension(300, 400));
+        paintingPanel.setMaximumSize(new Dimension(300, 400));
+        paintingPanel.repaint();
     }
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("MainWindow");
+        frame.setSize(380, 400);
+        frame.setResizable(false);
         frame.setContentPane(new MainWindow().rootPanel);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.pack();
