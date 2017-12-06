@@ -8,5 +8,11 @@ public interface INeuronLayer {
 
     void setLength(int l);
 
+    int getLength();
+
+    public void setSignal(int position, double signal);
+
+    INeuronLayer setNeurons(double[] neurons);
+
     double[] getNeurons();
 }

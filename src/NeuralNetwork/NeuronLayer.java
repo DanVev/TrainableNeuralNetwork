@@ -10,13 +10,15 @@ public class NeuronLayer implements INeuronLayer {
 
     public NeuronLayer(IActivationFunction activationFunction, int length) {
         this.activationFunction = activationFunction;
-        this.length = length;
-        neurons = new double[length];
+        this.length = length + 1;
+        neurons = new double[length + 1];
+        neurons[0] = 1;
     }
 
     public NeuronLayer(int length) {
-        this.length = length;
-        neurons = new double[length];
+        this.length = length + 1;
+        neurons = new double[length + 1];
+        neurons[0] = 1;
     }
 
     @Override
@@ -30,11 +32,24 @@ public class NeuronLayer implements INeuronLayer {
     }
 
     @Override
+
+    public int getLength() {
+        return length;
+    }
+
+    @Override
     public double[] getNeurons() {
         return neurons;
     }
 
-    public void setNeurons(double[] neurons) {
+    @Override
+    public void setSignal(int position, double signal) {
+        neurons[position] = signal;
+    }
+
+    @Override
+    public INeuronLayer setNeurons(double[] neurons) {
         this.neurons = neurons;
+        return this;
     }
 }
