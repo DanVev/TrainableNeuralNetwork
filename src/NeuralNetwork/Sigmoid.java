@@ -8,4 +8,9 @@ public class Sigmoid implements IActivationFunction {
     public double activationFunction(double t) {
         return 1.0 / (1.0 + Math.exp(-t));
     }
+
+    @Override
+    public double firstDerivative(double t) {
+        return activationFunction(t) * (1 - activationFunction(t));
+    }
 }

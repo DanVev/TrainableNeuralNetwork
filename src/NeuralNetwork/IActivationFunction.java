@@ -5,4 +5,6 @@ package NeuralNetwork;
  */
 public interface IActivationFunction {
     double activationFunction(double t);
+
+    double firstDerivative(double t);
 }
