@@ -63,9 +63,9 @@ public class NeuralNetwork {
         //backPropagation algorithm
         double[] trainSampleArray = trainSample.getPoints();
         double[] responses = forwardPropagation(trainSampleArray);
-        int outputLength = layers.get(this.length - 1).getLength();
+        int outputLength = layers.get(this.length - 1).getLength() - 1;
         double[] correctAnswers = new double[outputLength];
-        correctAnswers[trainSample.getClassNumber() - 1] = 1;
+        correctAnswers[trainSample.getClassNumber()] = 1;
         //calculate deltas for the last layer
         double[] lastLayerDelta = new double[outputLength];
         for (int i = 0; i < outputLength; i++)
@@ -74,12 +74,12 @@ public class NeuralNetwork {
         layerDeltas.add(lastLayerDelta);
         //for each layer, staring with layer before the last
         for (int i = length - 2; i >= 0; i--) {
-            double[] delta = new double[layers.get(i).getLength()];
+            double[] delta = new double[layers.get(i).getLength() - 1];
             // for each neuron in i-layer
-            for (int j = 0; j < layers.get(i).getLength(); j++) {
+            for (int j = 1; j < layers.get(i).getLength(); j++) {
                 double sum = 0.0;
                 //find delta as sum of errors of the next layer
-                for (int k = 0; k < layers.get(i + 1).getLength(); k++)
+                for (int k = 1; k < layers.get(i + 1).getLength() - 1; k++)
                     sum += weightsList.get(i)[j][k] * layerDeltas.get(length - 2 - i)[k];
                 delta[j] = layers.get(i).getActivationFunction().firstDerivative(layers.get(i).getNeurons()[j]) * sum;
             }
@@ -120,7 +120,9 @@ public class NeuralNetwork {
         if (weightsList.size() == 0)
             initWeights();
         double[] responses = forwardPropagation(testSample.getPoints());
-        System.out.println(Arrays.toString(responses));
-        return new Pair<>(0, 0.0);
+        double sum = Arrays.stream(responses).sum();
+        double max = Arrays.stream(responses).max().getAsDouble();
+        int classIndex = Arrays.asList(responses).indexOf(max);
+        return new Pair<>(classIndex, max / sum);
     }
 }

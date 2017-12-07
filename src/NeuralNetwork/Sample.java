@@ -9,35 +9,40 @@ import java.util.List;
  */
 public class Sample {
     private double[] points;
-    private int weigth;
+    private int weight;
     private int height;
+    private static double compression = 1;
     private int classNumber;
 
-    public Sample(List<Point2D> points, int weigth, int height) {
+    public Sample(List<Point2D> points, int weight, int height) {
 
-        setPoints(points);
-        this.weigth = weigth;
+        this.weight = weight;
         this.height = height;
+        setPoints(points);
     }
 
-    public Sample(double[] points, int weigth, int height) {
-        this.weigth = weigth;
+    public Sample(double[] points, int weight, int height) {
+        this.weight = weight;
         this.height = height;
         this.points = points;
     }
 
-    public Sample(double[] points, int weigth, int height, int classNumber) {
+    public Sample(double[] points, int weight, int height, int classNumber) {
         this.points = points;
-        this.weigth = weigth;
+        this.weight = weight;
         this.height = height;
         this.classNumber = classNumber;
     }
 
-    public Sample(List<Point2D> points, int weigth, int height, int classNumber) {
-        setPoints(points);
-        this.weigth = weigth;
+    public Sample(List<Point2D> points, int weight, int height, int classNumber) {
+        this.weight = weight;
         this.height = height;
         this.classNumber = classNumber;
+        setPoints(points);
+    }
+
+    public static void setCompression(double compression) {
+        Sample.compression = compression;
     }
 
     public double[] getPoints() {
@@ -45,18 +50,20 @@ public class Sample {
     }
 
     public void setPoints(List<Point2D> points) {
-        double[] result = new double[weigth * height];
+        int compressionWeight = (int) (weight / compression);
+        int compressionHeight = (int) (height / compression);
+        double[] result = new double[compressionHeight * compressionWeight];
         for (Point2D point : points)
-            result[(int) point.getX() * getWeigth() + (int) point.getY()] = 1;
+            result[(int) ((point.getX() / compression) * compressionWeight + (int) (point.getY() / compression))] = 1;
         this.points = result;
     }
 
-    public int getWeigth() {
-        return weigth;
+    public int getWeight() {
+        return weight;
     }
 
-    public void setWeigth(int weigth) {
-        this.weigth = weigth;
+    public void setWeight(int weight) {
+        this.weight = weight;
     }
 
     public int getClassNumber() {

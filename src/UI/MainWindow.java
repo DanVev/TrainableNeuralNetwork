@@ -1,8 +1,8 @@
 package UI;
 
-import NeuralNetwork.NeuralNetwork;
-import NeuralNetwork.NeuronLayer;
+import NeuralNetwork.*;
 import javafx.geometry.Point2D;
+import javafx.util.Pair;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,8 +20,15 @@ public class MainWindow {
     private JButton clearButton;
     private JPanel SettingPanel;
     private JComboBox letterComboBox;
-    private JButton saveButton;
+    private JButton trainButton;
+    private JLabel accuracyNumberLabel;
+    private JButton predictButton;
+    private JLabel predictedLabel;
+    private JLabel accuracyLabel;
     private JLabel letterLabel;
+    private static NeuralNetwork network;
+    //private  static final String[] letters = {"А", "Б", "В", "Г", "Д", "Е", "Ж", "З", "И", "Й", "К", "Л" ,"М", "Н", "О", "П", "Р", "С", "Т", "У", "Ф", ""};
+    private static final char[] letters = "АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЬЫЪЭЮЯ".toCharArray();
 
 
     private MainWindow() {
@@ -39,6 +46,24 @@ public class MainWindow {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 ((PaintingPanel) paintingPanel).clear();
+                letterLabel.setText("");
+                accuracyNumberLabel.setText("");
+            }
+        });
+        trainButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                network.train(new Sample(((PaintingPanel) paintingPanel).getPoints(), 300, 400, letterComboBox.getSelectedIndex()));
+            }
+        });
+        predictButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                Pair<Integer, Double> result = network.predict(new Sample(((PaintingPanel) paintingPanel).getPoints(), 300, 400, letterComboBox.getSelectedIndex()));
+                letterLabel.setText(String.valueOf(letters[result.getKey() + 1]));
+                accuracyNumberLabel.setText(result.getValue().toString());
             }
         });
     }
@@ -61,9 +86,11 @@ public class MainWindow {
         frame.setVisible(true);
 
 
-        NeuralNetwork network = new NeuralNetwork();
-        network.addLayer(new NeuronLayer(380 * 400)).
-                addLayer(new NeuronLayer(380 * 400 * 100)).
-                addLayer(new NeuronLayer(32));
+        network = new NeuralNetwork();
+        network.addLayer(new NeuronLayer(60 * 80)).
+                addLayer(new NeuronLayer(60 * 80 * 5, new Sigmoid())).
+                addLayer(new NeuronLayer(32, new Sigmoid()));
+        Sample.setCompression(5);
+
     }
 }
