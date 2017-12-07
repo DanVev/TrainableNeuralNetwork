@@ -3,10 +3,7 @@ package NeuralNetwork;
 import javafx.geometry.Point2D;
 import javafx.util.Pair;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Created by Vasily Danilin on 06.12.2017.
@@ -48,8 +45,13 @@ public class NeuralNetwork {
         //backPropagation algorithm
         double[] trainSampleArray = trainSample.getPoints();
         double[] responses = forwardPropagation(trainSampleArray);
-        double[] correctAnswers = new double[layers.get(length - 1).getLength()];
+        int outputLength = layers.get(this.length - 1).getLength();
+        double[] correctAnswers = new double[outputLength];
         correctAnswers[trainSample.getClassNumber()] = 1;
+        double[] delta = new double[outputLength];
+        for (int i = 0; i < outputLength; i++)
+            delta[i] = responses[i] * (1 - responses[i]) * (correctAnswers[i] - responses[i]);
+
 
     }
 
