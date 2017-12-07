@@ -9,7 +9,7 @@ public class Test {
         neuralNetwork.addLayer(new NeuronLayer(2)).
                 addLayer(new NeuronLayer(3, new Sigmoid())).
                 addLayer(new NeuronLayer(4, new Sigmoid()));
-        neuralNetwork.predict(new Sample(new double[]{10, 20}, 2, 1));
+        neuralNetwork.train(new Sample(new double[]{10, 20}, 2, 1, 3));
         System.out.println();
     }
 }

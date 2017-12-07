@@ -13,6 +13,23 @@ public class NeuralNetwork {
     private List<double[][]> weightsList = new ArrayList<>();
     private int length = 0;
     private boolean isRandomly = true;
+    private double trainingSpeed = 0.05;
+
+    public NeuralNetwork() {
+    }
+
+    public NeuralNetwork(boolean isRandomly, double trainingSpeed) {
+        this.isRandomly = isRandomly;
+        this.trainingSpeed = trainingSpeed;
+    }
+
+    public double getTrainingSpeed() {
+        return trainingSpeed;
+    }
+
+    public void setTrainingSpeed(double trainingSpeed) {
+        this.trainingSpeed = trainingSpeed;
+    }
 
     public NeuralNetwork addLayer(INeuronLayer layer) {
         layers.add(layer);
@@ -24,6 +41,7 @@ public class NeuralNetwork {
         this.isRandomly = b;
         return this;
     }
+
     public NeuralNetwork initWeights() {
         for (int i = 0; i < length - 1; i++) {
             double[][] e = new double[layers.get(i).getLength()][layers.get(i + 1).getLength() - 1];
@@ -47,11 +65,36 @@ public class NeuralNetwork {
         double[] responses = forwardPropagation(trainSampleArray);
         int outputLength = layers.get(this.length - 1).getLength();
         double[] correctAnswers = new double[outputLength];
-        correctAnswers[trainSample.getClassNumber()] = 1;
-        double[] delta = new double[outputLength];
+        correctAnswers[trainSample.getClassNumber() - 1] = 1;
+        //calculate deltas for the last layer
+        double[] lastLayerDelta = new double[outputLength];
         for (int i = 0; i < outputLength; i++)
-            delta[i] = responses[i] * (1 - responses[i]) * (correctAnswers[i] - responses[i]);
-
+            lastLayerDelta[i] = layers.get(length - 1).getActivationFunction().firstDerivative(responses[i]) * (correctAnswers[i] - responses[i]);
+        List<double[]> layerDeltas = new ArrayList<>();
+        layerDeltas.add(lastLayerDelta);
+        //for each layer, staring with layer before the last
+        for (int i = length - 2; i >= 0; i--) {
+            double[] delta = new double[layers.get(i).getLength()];
+            // for each neuron in i-layer
+            for (int j = 0; j < layers.get(i).getLength(); j++) {
+                double sum = 0.0;
+                //find delta as sum of errors of the next layer
+                for (int k = 0; k < layers.get(i + 1).getLength(); k++)
+                    sum += weightsList.get(i)[j][k] * layerDeltas.get(length - 2 - i)[k];
+                delta[j] = layers.get(i).getActivationFunction().firstDerivative(layers.get(i).getNeurons()[j]) * sum;
+            }
+            layerDeltas.add(delta);
+        }
+        //change weights
+        //for each weights between layers
+        for (int l = 0; l < weightsList.size(); l++) {
+            double[][] weights = weightsList.get(l);
+            for (int i = 0; i < weights.length; i++) {
+                for (int j = 0; j < weights[i].length; j++) {
+                    weights[i][j] += trainingSpeed * layers.get(l).getNeurons()[i] * layerDeltas.get(weightsList.size() - 1 - l)[j];
+                }
+            }
+        }
 
     }
 
